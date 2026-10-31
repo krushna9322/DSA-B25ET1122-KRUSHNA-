@@ -1,0 +1,107 @@
+#include <stdio.h>
+#define SIZE 5
+char txBuffer[SIZE];
+char rxBuffer[SIZE];
+
+int txHead = 0, txTail = 0;
+int rxHead = 0, rxTail = 0;
+int is_buffer_full(int head, int tail)
+{
+    return (head + 1) % SIZE == tail;
+}
+int is_buffer_empty(int head, int tail)
+{
+    return head == tail;
+}
+void uart_send(char data)
+{
+    if(is_buffer_full(txHead, txTail))
+    {
+        printf("\nTX Buffer is full!");
+        return;
+    }
+    txBuffer[txHead] = data;
+    txHead = (txHead + 1) % SIZE;
+
+    printf("\nData sent: %c", data);
+}
+void uart_receive()
+{
+    char data;
+    if(is_buffer_empty(txHead, txTail))
+    {
+        printf("\nTX Buffer is empty!");
+        return;
+    }
+    data = txBuffer[txTail];
+    txTail = (txTail + 1) % SIZE;
+
+    if(is_buffer_full(rxHead, rxTail))
+    {
+        printf("\nRX Buffer is full!");
+        return;
+    }
+    rxBuffer[rxHead] = data;
+    rxHead = (rxHead + 1) % SIZE;
+
+    printf("\nData received: %c", data);
+}
+void display()
+{
+    int i;
+    printf("\nTX Buffer: ");
+
+    if(is_buffer_empty(txHead, txTail))
+        printf("Empty");
+    else
+    {
+        for(i = txTail; i != txHead; i = (i + 1) % SIZE)
+            printf("%c ", txBuffer[i]);
+    }
+    printf("\nRX Buffer: ");
+
+    if(is_buffer_empty(rxHead, rxTail))
+        printf("Empty");
+    else
+    {
+        for(i = rxTail; i != rxHead; i = (i + 1) % SIZE)
+            printf("%c ", rxBuffer[i]);
+    }
+}
+int main()
+{
+    int choice;
+    char data;
+
+    do
+    {
+        printf("\n\nUART Communication");
+        printf("\n1. UART Send");
+        printf("\n2. UART Receive");
+        printf("\n3. Display Buffers");
+        printf("\n4. Exit");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                printf("\nEnter character to send: ");
+                scanf(" %c", &data);
+                uart_send(data);
+                break;
+            case 2:
+                uart_receive();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("\nExiting UART Communication.");
+                break;
+            default:
+                printf("\nInvalid choice!");
+        }
+    } while(choice != 4);
+    return 0;
+}
