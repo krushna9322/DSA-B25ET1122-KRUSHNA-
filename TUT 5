@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define size 5
+int stack[size];
+int top = -1;
+
+void push()
+{
+    int item;
+    if(top == size - 1)
+    {
+        printf("\nStack is full!");
+    }
+    else
+    {
+        printf("\nEnter the item to be pushed: ");
+        scanf("%d", &item);
+
+        top++;
+        stack[top] = item;
+
+        printf("\nItem pushed successfully.");
+    }
+}
+void pop()
+{
+    int item;
+
+    if(top == -1)
+    {
+        printf("\nStack is empty! Underflow!!");
+    }
+    else
+    {
+        item = stack[top];
+        top--;
+
+        printf("\nPopped element is: %d", item);
+    }
+}
+void display()
+{
+    int i;
+
+    if(top == -1)
+    {
+        printf("\nStack is empty!!");
+    }
+    else
+    {
+        printf("\nStack contents are:");
+
+        for(i = top; i >= 0; i--)
+        {
+            printf("\n%d", stack[i]);
+        }
+        printf("\nTOP position = %d", top);
+    }
+}
+int main()
+{
+    int choice;
+
+    do
+    {
+        printf("\n\n\tImplementation of Stack");
+        printf("\n1. PUSH");
+        printf("\n2. POP");
+        printf("\n3. DISPLAY");
+        printf("\n4. EXIT");
+
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                push();
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                display();
+                break;
+
+            case 4:
+                exit(0);
+            default:
+                printf("\nInvalid choice!");
+        }
+    } while(choice != 4);
+    return 0;
+}
