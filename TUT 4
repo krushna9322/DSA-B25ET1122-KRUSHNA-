@@ -1,0 +1,166 @@
+#include <stdio.h>
+struct employee
+{
+    int emp_no;
+    char name[20];
+    float salary;
+} e[50];
+int n = 0;
+void create();
+void display();
+void search();
+void modify();
+void sort();
+
+void create()
+{
+    int i;
+    printf("\n Enter number of employees: ");
+    scanf("%d", &n);
+    for(i = 0; i < n; i++)
+    {
+        printf("\n Enter the emp_no: ");
+        scanf("%d", &e[i].emp_no);
+
+        printf("\n Enter employee name: ");
+        scanf("%19s", e[i].name);
+
+        printf("\n Enter employee salary: ");
+        scanf("%f", &e[i].salary);
+    }
+}
+void display()
+{
+    int i;
+    for(i = 0; i < n; i++)
+    {
+        printf("\n%d, %s, %.2f",
+        e[i].emp_no,
+        e[i].name,
+        e[i].salary);
+    }
+}
+void search()
+{
+    int i, emp_no;
+
+    printf("\n Enter employee number to search: ");
+    scanf("%d", &emp_no);
+
+    for(i = 0; i < n; i++)
+    {
+        if(e[i].emp_no == emp_no)
+        {
+            printf("\n%d, %s, %.2f",
+            e[i].emp_no,
+            e[i].name,
+            e[i].salary);
+
+            return;
+        }
+    }
+    printf("\n Employee not found!");
+}
+void modify()
+{
+    int i, emp_no;
+    printf("\n Enter employee number to modify: ");
+    scanf("%d", &emp_no);
+
+    for(i = 0; i < n; i++)
+    {
+        if(e[i].emp_no == emp_no)
+        {
+            printf("\n Enter new employee name: ");
+            scanf("%19s", e[i].name);
+
+            printf("\n Enter new employee salary: ");
+            scanf("%f", &e[i].salary);
+
+            printf("\n Employee modified successfully!");
+
+            return;
+        }
+    }
+    printf("\n Employee not found!");
+}
+void sort()
+{
+    int i, j;
+    struct employee temp;
+
+    for(i = 0; i < n - 1; i++)
+    {
+        for(j = i + 1; j < n; j++)
+        {
+            if(e[i].emp_no > e[j].emp_no)
+            {
+                temp = e[i];
+                e[i] = e[j];
+                e[j] = temp;
+            }
+        }
+    }
+
+    printf("\n Employee records sorted!");
+}
+int main()
+{
+    int choice;
+    char ans;
+
+    do
+    {
+        printf("\n\n\n Employee Information");
+        printf("\n");
+        printf("\n MAIN MENU");
+        printf("\n");
+
+        printf("\n1. Create");
+        printf("\n2. Display");
+        printf("\n3. Modify");
+        printf("\n4. Search");
+        printf("\n5. Sort");
+
+        printf("\n\n Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                create();
+                break;
+
+            case 2:
+                display();
+                break;
+
+            case 3:
+                modify();
+                break;
+
+            case 4:
+                search();
+                break;
+
+            case 5:
+                sort();
+                break;
+
+            default:
+                printf("\n Invalid choice!!!");
+        }
+
+        printf("\n\n Do you want to continue? (y/n): ");
+        scanf(" %c", &ans);
+
+    }
+    while(ans == 'y' || ans == 'Y');
+
+    if(ans == 'n' || ans == 'N')
+    {
+        printf("\n\n *** You are out ***");
+    }
+
+    return 0;
+}
