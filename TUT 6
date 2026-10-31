@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+    int data;
+    struct node *next;
+};
+struct node *top = NULL;
+void push()
+{
+    int item;
+    struct node *newnode;
+
+    newnode = (struct node *)malloc(sizeof(struct node));
+
+    if(newnode == NULL)
+    {
+        printf("\nStack is full!");
+        return;
+    }
+    printf("\nEnter the item to be pushed: ");
+    scanf("%d", &item);
+
+    newnode->data = item;
+    newnode->next = top;
+    top = newnode;
+
+    printf("\nItem pushed successfully.");
+}
+void pop()
+{
+    struct node *temp;
+
+    if(top == NULL)
+    {
+        printf("\nStack is empty! Underflow!!");
+        return;
+    }
+    temp = top;
+    printf("\nPopped element is: %d", top->data);
+    top = top->next;
+    free(temp);
+}
+void display()
+{
+    struct node *temp;
+    if(top == NULL)
+    {
+        printf("\nStack is empty!!");
+        return;
+    }
+    printf("\nStack contents are:");
+    temp = top;
+    while(temp != NULL)
+    {
+        printf("\n%d", temp->data);
+        temp = temp->next;
+    }
+}
+int main()
+{
+    int choice;
+    do
+    {
+        printf("\n\n\tImplementation of Stack Using Linked List");
+        printf("\n1. PUSH");
+        printf("\n2. POP");
+        printf("\n3. DISPLAY");
+        printf("\n4. EXIT");
+
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+        switch(choice)
+        {
+            case 1:
+                push();
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("\nYou are out.");
+                break;
+            default:
+                printf("\nInvalid choice!");
+        }
+    } while(choice != 4);
+    return 0;
+}
